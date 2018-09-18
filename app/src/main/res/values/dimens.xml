@@ -3,4 +3,5 @@
     <dimen name="activity_horizontal_margin">16dp</dimen>
     <dimen name="activity_vertical_margin">16dp</dimen>
     <dimen name="welcome_message_text_size">30sp</dimen>
+    <dimen name="sign_in_button_margin">20dp</dimen>
 </resources>
