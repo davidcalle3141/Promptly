@@ -1,13 +1,17 @@
-package calle.david.promptly.UI;
+package UI.Fragments;
 
+import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
-import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
@@ -23,38 +27,57 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
 
+import java.util.concurrent.Executor;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import calle.david.promptly.R;
 
-public class MainActivity extends AppCompatActivity {
+
+
+public class Login extends Fragment {
+
 
     private GoogleSignInClient mGoogleSingInClient;
     private FirebaseAuth mAuth;
     int RC_SIGN_IN = 1;
-    String TAG = "main activity";
+    String TAG = "Login Fragment";
+    private View mView;
+    private Context mContext;
 
     @BindView(R.id.sign_in_button)SignInButton mGoogleSingInButton;
 
+
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+
+
+    }
+
+    @Override
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        // Inflate the layout for this fragment
+        View view = inflater.inflate(R.layout.fragment_login, container, false);
+        this.mContext = this.getContext();
+
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestIdToken(getString(R.string.web_client_id))
                 .requestEmail()
                 .build();
 
-        mGoogleSingInClient = GoogleSignIn.getClient(this,gso);
+        mGoogleSingInClient = GoogleSignIn.getClient(mContext,gso);
 
-        ButterKnife.bind(this);
+        ButterKnife.bind(this,view);
         mAuth = FirebaseAuth.getInstance();
-
+        this.mView = view;
+        return view;
     }
 
     @Override
-    protected void onStart() {
+    public void onStart() {
         super.onStart();
         FirebaseUser account = mAuth.getCurrentUser();
         updateUi(account);
@@ -67,12 +90,12 @@ public class MainActivity extends AppCompatActivity {
         startActivityForResult(signInIntent, RC_SIGN_IN);
 
     }
-    
-    
+
+
 
     private void showSignInButton() {
         mGoogleSingInButton.setVisibility(View.VISIBLE);
-        mGoogleSingInButton.setSize(SignInButton.SIZE_STANDARD);
+        mGoogleSingInButton.setSize(SignInButton.SIZE_WIDE);
     }
 
     private void updateUi(FirebaseUser account) {
@@ -82,9 +105,9 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        
+
         if(requestCode == 1){
             Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
             try{
@@ -102,7 +125,7 @@ public class MainActivity extends AppCompatActivity {
 
         AuthCredential credential = GoogleAuthProvider.getCredential(acct.getIdToken(),null);
         mAuth.signInWithCredential(credential)
-                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                .addOnCompleteListener((Executor) this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if(task.isSuccessful()){
@@ -111,7 +134,7 @@ public class MainActivity extends AppCompatActivity {
                             updateUi(user);
                         }else{
                             Log.w(TAG, "signInWithCredential:failure", task.getException());
-                            Snackbar.make(findViewById(R.id.main_layout), "Authentication Failed.", Snackbar.LENGTH_SHORT).show();
+                            Snackbar.make(mView, "Authentication Failed.", Snackbar.LENGTH_SHORT).show();
                             updateUi(null);
 
                         }
@@ -119,6 +142,4 @@ public class MainActivity extends AppCompatActivity {
                 });
 
     }
-
-
 }
