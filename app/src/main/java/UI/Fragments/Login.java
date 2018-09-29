@@ -8,6 +8,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -29,6 +30,7 @@ import com.google.firebase.auth.GoogleAuthProvider;
 
 import java.util.concurrent.Executor;
 
+import Utils.FragmentNavUtils;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -36,7 +38,7 @@ import calle.david.promptly.R;
 
 
 
-public class Login extends Fragment {
+public class Login extends android.support.v4.app.Fragment {
 
 
     private GoogleSignInClient mGoogleSingInClient;
@@ -45,8 +47,10 @@ public class Login extends Fragment {
     String TAG = "Login Fragment";
     private View mView;
     private Context mContext;
+    FragmentManager mFragmentManager;
 
     @BindView(R.id.sign_in_button)SignInButton mGoogleSingInButton;
+
 
 
     @Override
@@ -60,9 +64,9 @@ public class Login extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_login, container, false);
+        mView = inflater.inflate(R.layout.fragment_login, container, false);
         this.mContext = this.getContext();
-
+        mFragmentManager = getFragmentManager();
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestIdToken(getString(R.string.web_client_id))
                 .requestEmail()
@@ -70,10 +74,9 @@ public class Login extends Fragment {
 
         mGoogleSingInClient = GoogleSignIn.getClient(mContext,gso);
 
-        ButterKnife.bind(this,view);
+        ButterKnife.bind(this,mView);
         mAuth = FirebaseAuth.getInstance();
-        this.mView = view;
-        return view;
+        return mView;
     }
 
     @Override
@@ -100,7 +103,7 @@ public class Login extends Fragment {
 
     private void updateUi(FirebaseUser account) {
         if(account!=null){
-
+            //FragmentNavUtils.navigateToFragment(mFragmentManager, new MainScreen(),R.id.fragment_container,"MAIN_SCREEN_FRAGMENT");
         }else showSignInButton();
     }
 
