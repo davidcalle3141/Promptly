@@ -27,20 +27,20 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
 
-                AHBottomNavigationItem item1 =
-                        new AHBottomNavigationItem(getResources().getString(R.string.bottom_nav_file_picker), R.drawable.ic_noun_file_1956530);
 
-                AHBottomNavigationItem item2 =
+                AHBottomNavigationItem item0 =
                         new AHBottomNavigationItem(getResources().getString(R.string.bottom_nav_saved_files), R.drawable.ic_noun_save_1203125);
 
-                AHBottomNavigationItem item3 =
+                AHBottomNavigationItem item1 =
+                new AHBottomNavigationItem(getResources().getString(R.string.bottom_nav_file_picker), R.drawable.ic_noun_file_1956530);
+
+                AHBottomNavigationItem item2 =
                         new AHBottomNavigationItem(getResources().getString(R.string.bottom_nav_file_settings), R.drawable.ic_noun_settings_1187459);
 
+                mBottomNavigation.addItem(item0);
                 mBottomNavigation.addItem(item1);
                 mBottomNavigation.addItem(item2);
-                mBottomNavigation.addItem(item3);
 
-                mBottomNavigation.setCurrentItem(1);
 
 
                 mBottomNavigation.setOnTabSelectedListener(new AHBottomNavigation.OnTabSelectedListener(){
@@ -48,15 +48,16 @@ public class MainActivity extends AppCompatActivity {
                     public boolean onTabSelected(int position, boolean wasSelected) {
                         switch (position){
                             case 0:
-                                FragmentNavUtils.replaceFragment(getSupportFragmentManager(),R.id.fragment_container,new FilePicker(),"FILE_PICKER");
+                                FragmentNavUtils.replaceFragment(getSupportFragmentManager(),R.id.fragment_container,new SavedPrompts(),"SAVED_PROMPTS");
                                 break;
                             case 1:
-                                FragmentNavUtils.replaceFragment(getSupportFragmentManager(),R.id.fragment_container,new SavedPrompts(),"SAVED_PROMPTS");
+                                FragmentNavUtils.replaceFragment(getSupportFragmentManager(),R.id.fragment_container,new FilePicker(),"FILE_PICKER");
                                 break;
 
                             case 2:
                                 FragmentNavUtils.replaceFragment(getSupportFragmentManager(),R.id.fragment_container,new Settings(),"SETTINGS");
                                 break;
+
 
                         }
 
@@ -64,12 +65,12 @@ public class MainActivity extends AppCompatActivity {
                     }
                 });
 
+
         if(savedInstanceState==null){
             mBottomNavigation.setCurrentItem(1);
             FragmentNavUtils.startActivityFragment(getSupportFragmentManager(), new Login(), R.id.fragment_container);}
 
-
-
-
     }
+
+
 }

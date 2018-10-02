@@ -28,6 +28,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
 
+import java.util.Objects;
 import java.util.concurrent.Executor;
 
 import Utils.FragmentNavUtils;
@@ -103,7 +104,10 @@ public class Login extends android.support.v4.app.Fragment {
 
     private void updateUi(FirebaseUser account) {
         if(account!=null){
-            //FragmentNavUtils.navigateToFragment(mFragmentManager, new MainScreen(),R.id.fragment_container,"MAIN_SCREEN_FRAGMENT");
+            Objects.requireNonNull(getActivity()).findViewById(R.id.toolbar_container).setVisibility(View.VISIBLE);
+            getActivity().findViewById(R.id.bottom_navigation_view).setVisibility(View.VISIBLE);
+            FragmentNavUtils.replaceFragment(mFragmentManager,R.id.fragment_container,new FilePicker(),"FILE_PICKER");
+
         }else showSignInButton();
     }
 
@@ -128,7 +132,7 @@ public class Login extends android.support.v4.app.Fragment {
 
         AuthCredential credential = GoogleAuthProvider.getCredential(acct.getIdToken(),null);
         mAuth.signInWithCredential(credential)
-                .addOnCompleteListener((Executor) this, new OnCompleteListener<AuthResult>() {
+                .addOnCompleteListener(Objects.requireNonNull(getActivity()), new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if(task.isSuccessful()){
