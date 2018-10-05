@@ -1,13 +1,76 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="UI.Fragments.PreviewDialogue">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context="UI.Fragments.PreviewDialogue"
+    android:layout_margin="15dp"
+    app:cardCornerRadius="10dp"
+    android:elevation="16dp"
+    >
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/prompt_preview_dialog_toolbar"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:layout_height="?android:attr/actionBarSize"
+        android:layout_gravity="top"
+        android:background="@color/colorPrimary"
+        android:elevation="4dp">
 
-</FrameLayout>
+        <TextView
+            android:id="@+id/prompt_dialog_preview_toolbar_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:textAlignment="gravity"
+            android:textSize="@dimen/toolbar_txt_size"
+            android:textStyle="bold" />
+
+
+    </android.support.v7.widget.Toolbar>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_gravity="top">
+
+        <EditText
+            android:id="@+id/prompt_preview_edit_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/prompt_edit_text_hint"
+            android:inputType="text" />
+
+    </ScrollView>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:weightSum="1"
+        android:layout_gravity="bottom">
+
+        <Button
+            android:id="@+id/prompt_preview_start_button"
+            style="?android:attr/buttonBarButtonStyle"
+            android:layout_weight=".5"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@string/start_prompt"
+            app:layout_constraintHorizontal_weight=".5"
+            android:elevation="4dp"/>
+        <Button
+            android:id="@+id/prompt_preview_choose_another_button"
+            style="?android:attr/buttonBarButtonStyle"
+            android:text="@string/wrong_one"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight=".5"
+            android:elevation="4dp"
+            />
+
+    </LinearLayout>
+
+
+
+
+</android.support.v7.widget.CardView>
