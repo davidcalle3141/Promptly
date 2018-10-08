@@ -1,33 +1,39 @@
 package UI.Fragments;
 
+import android.arch.lifecycle.ViewModelProvider;
+import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import java.util.Objects;
+
+import UI.Adapters.SavedPromptsAdapter;
+import Utils.InjectorUtils;
+import ViewModel.PreviewDialogueViewModel;
+import ViewModel.PreviewDialogueViewModelFactory;
+import ViewModel.SavedPromptsViewModel;
+import ViewModel.SavedPromptsViewModelFactory;
+import butterknife.BindView;
+import butterknife.ButterKnife;
 import calle.david.promptly.R;
 
-/**
- * A simple {@link Fragment} subclass.
- * Activities that contain this fragment must implement the
- * {@link SavedPrompts.OnFragmentInteractionListener} interface
- * to handle interaction events.
- * Use the {@link SavedPrompts#newInstance} factory method to
- * create an instance of this fragment.
- */
-public class SavedPrompts extends Fragment {
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
+public class SavedPrompts extends Fragment implements SavedPromptsAdapter.SavedPromptOnClickListener {
+    View mView;
+    Context mContext;
+    SavedPromptsAdapter mAdapter;
 
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
-
+    @BindView(R.id.saved_prompts_RV)RecyclerView mRecyclerView;
+    private SavedPromptsViewModel mSavedViewModel;
+    private PreviewDialogueViewModel mPreviewViewModel;
 
     public SavedPrompts() {
         // Required empty public constructor
@@ -36,11 +42,41 @@ public class SavedPrompts extends Fragment {
 
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_saved_prompts, container, false);
+        mView = inflater.inflate(R.layout.fragment_saved_prompts, container, false);
+        mContext = getContext();
+
+        ButterKnife.bind(this,mView);
+
+        LinearLayoutManager  layoutManager = new LinearLayoutManager(mContext);
+        mAdapter = new SavedPromptsAdapter(mContext,this );
+        mRecyclerView.setLayoutManager(layoutManager);
+        mRecyclerView.setAdapter(mAdapter);
+        return mView;    }
+
+    @Override
+    public void onItemClick(int position, int id) {
+
+
     }
 
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        SavedPromptsViewModelFactory sFactory = InjectorUtils.provideSavedPromptsFactory(Objects.requireNonNull(getActivity()));
+        mSavedViewModel = ViewModelProviders.of(getActivity(),sFactory).get(SavedPromptsViewModel.class);
 
+        populateUI();
+    }
+
+    private void populateUI() {
+        mSavedViewModel.getPromptList().observe(this,
+                prompts->{
+            if(prompts!= null){
+                mAdapter.addPromptList(prompts);
+                mAdapter.notifyDataSetChanged();
+            }
+        });
+    }
 }

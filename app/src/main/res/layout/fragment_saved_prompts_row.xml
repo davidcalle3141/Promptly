@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <include
+        android:id="@+id/saved_prompts_horizontal_line"
+        layout="@layout/horizontal_line"/>
+    <TextView
+        android:id="@+id/saved_prompt_row_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="30sp"
+        android:text="Booo"/>
+    <TextView
+        app:layout_constraintTop_toBottomOf="@id/saved_prompt_row_title"
+        android:id="@+id/saved_prompt_row_date"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="20sp"
+        android:text="10/15/2929"/>
+
+</android.support.constraint.ConstraintLayout>

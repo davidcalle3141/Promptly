@@ -47,7 +47,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom"
-            android:weightSum="1"
+            android:weightSum="9"
             app:layout_constraintBottom_toBottomOf="@id/preview_dialog_constraint_layout">
 
             <Button
@@ -55,18 +55,25 @@
                 style="?android:attr/buttonBarButtonStyle"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight=".5"
-                android:elevation="4dp"
+                android:layout_weight="3"
                 android:text="@string/start_prompt"
                 app:layout_constraintHorizontal_weight=".5" />
+
+            <Button
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="3"
+                android:text="@string/save"
+                style="?android:attr/buttonBarButtonStyle"
+
+                />
 
             <Button
                 android:id="@+id/prompt_preview_choose_another_button"
                 style="?android:attr/buttonBarButtonStyle"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight=".5"
-                android:elevation="4dp"
+                android:layout_weight="3"
                 android:text="@string/wrong_one" />
 
         </LinearLayout>

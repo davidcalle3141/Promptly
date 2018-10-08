@@ -33,6 +33,7 @@ public class PromptlyRepo {
     public LiveData<List<Prompt>> getPromptList(){
         return mPromptDao.getAllPrompts();
     }
+    public LiveData<Prompt> getPrompt(int id ){return mPromptDao.selectPrompt(id);}
     public void savePrompt(Prompt prompt){
         mPromptDao.Insert(prompt);
     }
