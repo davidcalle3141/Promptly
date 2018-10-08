@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -17,6 +18,7 @@ import android.view.ViewGroup;
 import java.util.Objects;
 
 import UI.Adapters.SavedPromptsAdapter;
+import Utils.FragmentNavUtils;
 import Utils.InjectorUtils;
 import ViewModel.PreviewDialogueViewModel;
 import ViewModel.PreviewDialogueViewModelFactory;
@@ -33,7 +35,7 @@ public class SavedPrompts extends Fragment implements SavedPromptsAdapter.SavedP
 
     @BindView(R.id.saved_prompts_RV)RecyclerView mRecyclerView;
     private SavedPromptsViewModel mSavedViewModel;
-    private PreviewDialogueViewModel mPreviewViewModel;
+    private FragmentManager mFragmentManager;
 
     public SavedPrompts() {
         // Required empty public constructor
@@ -46,7 +48,7 @@ public class SavedPrompts extends Fragment implements SavedPromptsAdapter.SavedP
                              Bundle savedInstanceState) {
         mView = inflater.inflate(R.layout.fragment_saved_prompts, container, false);
         mContext = getContext();
-
+        mFragmentManager = getFragmentManager();
         ButterKnife.bind(this,mView);
 
         LinearLayoutManager  layoutManager = new LinearLayoutManager(mContext);
@@ -57,7 +59,8 @@ public class SavedPrompts extends Fragment implements SavedPromptsAdapter.SavedP
 
     @Override
     public void onItemClick(int position, int id) {
-
+            mSavedViewModel.setFocusedPrompt(mAdapter.getPrompt(position));
+            FragmentNavUtils.navigateToFragment(mFragmentManager,new SavedDialogue(),R.id.fragment_container,"Saved Dialogue");
 
     }
 

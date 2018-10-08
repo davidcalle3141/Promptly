@@ -12,14 +12,22 @@ import android.os.Bundle;
 import android.provider.OpenableColumns;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
+
+import com.hlab.fabrevealmenu.listeners.OnFABMenuSelectedListener;
+import com.hlab.fabrevealmenu.view.FABRevealMenu;
 
 import java.io.BufferedReader;
 import java.io.FileOutputStream;
@@ -31,6 +39,7 @@ import java.util.Calendar;
 import java.util.Objects;
 
 import Data.Database.Prompt;
+import Utils.FragmentNavUtils;
 import Utils.InjectorUtils;
 import ViewModel.PreviewDialogueViewModel;
 import ViewModel.PreviewDialogueViewModelFactory;
@@ -40,7 +49,7 @@ import butterknife.OnClick;
 import calle.david.promptly.R;
 
 
-public class PreviewDialogue extends Fragment {
+public class PreviewDialogue extends Fragment implements OnFABMenuSelectedListener{
     private static final int READ_REQUEST_CODE = 43;
     private static final String LOG_TAG = "PREVIEW_DIALOGUE";
     View mView;
@@ -48,10 +57,11 @@ public class PreviewDialogue extends Fragment {
 
     @BindView(R.id.prompt_dialog_preview_toolbar_title)TextView mToolbarTitle;
     @BindView(R.id.prompt_preview_text_view)TextView mPreviewText;
-    @BindView(R.id.prompt_preview_start_button)Button mStartButton;
-    @BindView(R.id.prompt_preview_choose_another_button)Button mChooseAnotherButton;
+    @BindView(R.id.fab)FloatingActionButton mFab;
+    @BindView(R.id.fabMenu)FABRevealMenu mFabMenu;
 
     private PreviewDialogueViewModel mViewModel;
+    private FragmentManager mFragmentManager;
 
 
     public PreviewDialogue() {
@@ -62,16 +72,19 @@ public class PreviewDialogue extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        mFragmentManager = getFragmentManager();
         mContext = getContext();
         mView =  inflater.inflate(R.layout.fragment_preview_dialogue, container, false);
         ButterKnife.bind(this,mView);
+        mFabMenu.setMenu(R.menu.fab_menu_selected);
+        mFabMenu.bindAnchorView(mFab);
+        mFabMenu.setOnFABMenuSelectedListener(this);
         return mView;
     }
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        Objects.requireNonNull(getActivity()).findViewById(R.id.bottom_navigation_view).setVisibility(View.GONE);
         PreviewDialogueViewModelFactory factory = InjectorUtils.providePreviewDialogueFactory(Objects.requireNonNull(getActivity()));
         mViewModel = ViewModelProviders.of(getActivity(),factory).get(PreviewDialogueViewModel.class);
 
@@ -140,7 +153,13 @@ public class PreviewDialogue extends Fragment {
             returnCursor.close();}
         return returnName;
     }
-    @OnClick(R.id.prompt_preview_choose_another_button)
+
+
+    @OnClick(R.id.toolbar_back_arrow)
+    public void goBack(){
+        FragmentNavUtils.pop(mFragmentManager);
+    }
+
     public void selectFile(){
         Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
         intent.addCategory(Intent.CATEGORY_OPENABLE);
@@ -148,7 +167,6 @@ public class PreviewDialogue extends Fragment {
         startActivityForResult(intent, READ_REQUEST_CODE);
     }
 
-    @OnClick(R.id.prompt_preview_save_button)
     public void saveButton(){
         Prompt prompt = new Prompt();
 
@@ -159,7 +177,7 @@ public class PreviewDialogue extends Fragment {
             if(promptDetail!=null) {
                 saveFile(promptDetail);
                 prompt.setName(promptDetail[0].substring(0, promptDetail[0].lastIndexOf('.')));
-                prompt.setPath(Objects.requireNonNull(getContext()).getFilesDir().getPath().concat("/").concat(promptDetail[0]));
+                prompt.setPath(promptDetail[0]);
                 prompt.setSavedDate(date);
                 mViewModel.savePrompt(prompt);
             }
@@ -180,4 +198,23 @@ public class PreviewDialogue extends Fragment {
     }
 
 
+    @Override
+    public void onMenuItemSelected(View view, int id) {
+        switch (id){
+            case R.id.change:
+                selectFile();
+                break;
+            case R.id.save:
+                saveButton();
+                break;
+            case R.id.play:
+                playPrompt();
+                break;
+
+
+        }
+    }
+
+    private void playPrompt() {
+    }
 }

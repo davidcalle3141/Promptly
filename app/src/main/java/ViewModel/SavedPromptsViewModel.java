@@ -12,6 +12,7 @@ import Data.PromptlyRepo;
 public class SavedPromptsViewModel extends ViewModel {
     private final LiveData<List<Prompt>> mPromptList;
     private MutableLiveData<String[]> mPromptDetails;
+    private MutableLiveData<Prompt> mFocusedPrompt;
 
     private PromptlyRepo mRepo;
 
@@ -20,6 +21,7 @@ public class SavedPromptsViewModel extends ViewModel {
         this.mRepo = repo;
         mPromptList = mRepo.getPromptList();
         mPromptDetails = new MutableLiveData<>();
+        mFocusedPrompt = new MutableLiveData<>();
 
     }
 
@@ -31,5 +33,13 @@ public class SavedPromptsViewModel extends ViewModel {
     }
     public LiveData<List<Prompt>> getPromptList() {
         return mPromptList;
+    }
+
+    public MutableLiveData<Prompt> getFocusedPrompt() {
+        return mFocusedPrompt;
+    }
+
+    public void setFocusedPrompt(Prompt mFocusedPrompt) {
+        this.mFocusedPrompt.postValue(mFocusedPrompt);
     }
 }

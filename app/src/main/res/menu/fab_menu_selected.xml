@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android" >
+    <group android:checkableBehavior="single">
+        <item
+            android:icon="@drawable/ic_play_play24dp"
+            android:id="@+id/play"
+            android:title="Start" />
+        <item
+            android:icon="@drawable/ic_redo_white_24dp"
+            android:id="@+id/change"
+            android:title="Change" />
+        <item
+            android:icon="@drawable/ic_save_white_24dp"
+            android:id="@+id/save"
+            android:title="Save" />
+    </group>
+</menu>

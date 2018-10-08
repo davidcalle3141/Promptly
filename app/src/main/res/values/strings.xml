@@ -32,6 +32,7 @@
     <string name="wrong_one">Change</string>
     <string name="settings_text">Hello! Adjust seek bar to desired text size</string>
     <string name="save">Save</string>
+    <string name="delete">delete</string>
 
 
 </resources>

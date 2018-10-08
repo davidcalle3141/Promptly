@@ -4,6 +4,9 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context="UI.Fragments.FilePicker">
+   <include
+       layout="@layout/zdefault_toolbar"
+       android:id="@+id/file_picker_app_bar"/>
 
     <TextView
         android:id="@+id/prompt_picker_text_view"
@@ -12,10 +15,11 @@
         android:text="@string/lets_get_some_prompts"
         android:textSize="@dimen/welcome_message_text_size"
         android:textStyle="bold"
+
+        app:layout_constraintTop_toBottomOf="@id/file_picker_app_bar"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.4" />
 
 

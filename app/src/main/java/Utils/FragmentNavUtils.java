@@ -29,5 +29,8 @@ public class FragmentNavUtils {
     public static void popInclusiveFalse(FragmentManager fragmentManager, String DESTINATION_TAG){
         fragmentManager.popBackStack(DESTINATION_TAG,0);
     }
+    public static void pop(FragmentManager fragmentManager){
+        fragmentManager.popBackStack();
+    }
 
 }

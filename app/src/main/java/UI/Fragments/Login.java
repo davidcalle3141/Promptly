@@ -66,7 +66,7 @@ public class Login extends android.support.v4.app.Fragment {
         super.onActivityCreated(savedInstanceState);
         if(getActivity()!=null){
         getActivity().findViewById(R.id.bottom_navigation_view).setVisibility(View.GONE);
-        getActivity().findViewById(R.id.toolbar_container).setVisibility(View.GONE);}
+        }
     }
 
     @Override
@@ -115,7 +115,7 @@ public class Login extends android.support.v4.app.Fragment {
         if(account!=null){
             if(getActivity()!=null){
                     getActivity().findViewById(R.id.bottom_navigation_view).setVisibility(View.VISIBLE);
-                    getActivity().findViewById(R.id.toolbar_container).setVisibility(View.VISIBLE);
+
             }
             FragmentNavUtils.replaceFragment(mFragmentManager,R.id.fragment_container,new FilePicker(),"FILE_PICKER");
 

@@ -27,6 +27,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
 
+                mBottomNavigation.setAccentColor(Color.parseColor("#da0000"));
 
                 AHBottomNavigationItem item0 =
                         new AHBottomNavigationItem(getResources().getString(R.string.bottom_nav_saved_files), R.drawable.ic_noun_save_1203125);
@@ -43,26 +44,26 @@ public class MainActivity extends AppCompatActivity {
 
 
 
-                mBottomNavigation.setOnTabSelectedListener(new AHBottomNavigation.OnTabSelectedListener(){
-                    @Override
-                    public boolean onTabSelected(int position, boolean wasSelected) {
-                        switch (position){
-                            case 0:
-                                FragmentNavUtils.replaceFragment(getSupportFragmentManager(),R.id.fragment_container,new SavedPrompts(),"SAVED_PROMPTS");
-                                break;
-                            case 1:
-                                FragmentNavUtils.replaceFragment(getSupportFragmentManager(),R.id.fragment_container,new FilePicker(),"FILE_PICKER");
-                                break;
+                mBottomNavigation.setOnTabSelectedListener((position, wasSelected) -> {
+                    switch (position){
+                        case 0:
+                            FragmentNavUtils.pop(getSupportFragmentManager());
+                            FragmentNavUtils.replaceFragment(getSupportFragmentManager(),R.id.fragment_container,new SavedPrompts(),"SAVED_PROMPTS");
+                            break;
+                        case 1:
+                            FragmentNavUtils.pop(getSupportFragmentManager());
+                            FragmentNavUtils.replaceFragment(getSupportFragmentManager(),R.id.fragment_container,new FilePicker(),"FILE_PICKER");
+                            break;
 
-                            case 2:
-                                FragmentNavUtils.replaceFragment(getSupportFragmentManager(),R.id.fragment_container,new Settings(),"SETTINGS");
-                                break;
+                        case 2:
+                            FragmentNavUtils.pop(getSupportFragmentManager());
+                            FragmentNavUtils.replaceFragment(getSupportFragmentManager(),R.id.fragment_container,new Settings(),"SETTINGS");
+                            break;
 
 
-                        }
-
-                        return true;
                     }
+
+                    return true;
                 });
 
 
