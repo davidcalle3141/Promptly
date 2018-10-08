@@ -6,5 +6,6 @@ import Data.PromptlyRepo;
 
 public class SavedPromptsViewModel extends ViewModel {
     public SavedPromptsViewModel(PromptlyRepo mRepo) {
+
     }
 }

@@ -8,7 +8,11 @@
     app:cardCornerRadius="10dp"
     android:elevation="16dp"
     >
-
+    <android.support.constraint.ConstraintLayout
+        android:id="@+id/preview_dialog_constraint_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        >
     <android.support.v7.widget.Toolbar
         android:id="@+id/prompt_preview_dialog_toolbar"
         android:layout_width="match_parent"
@@ -25,52 +29,50 @@
             android:textAlignment="gravity"
             android:textSize="@dimen/toolbar_txt_size"
             android:textStyle="bold" />
-
-
     </android.support.v7.widget.Toolbar>
 
-    <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_gravity="top">
 
-        <EditText
-            android:id="@+id/prompt_preview_edit_text"
+        <TextView
+            android:id="@+id/prompt_preview_text_view"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:scrollbars="vertical"
+            app:layout_constraintBottom_toTopOf="@+id/preview_dialog_button_bar"
+            app:layout_constraintTop_toBottomOf="@id/prompt_preview_dialog_toolbar"
+            android:padding="10dp"
+             />
+
+        <LinearLayout
+            android:id="@+id/preview_dialog_button_bar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/prompt_edit_text_hint"
-            android:inputType="text" />
+            android:layout_gravity="bottom"
+            android:weightSum="1"
+            app:layout_constraintBottom_toBottomOf="@id/preview_dialog_constraint_layout">
 
-    </ScrollView>
+            <Button
+                android:id="@+id/prompt_preview_start_button"
+                style="?android:attr/buttonBarButtonStyle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight=".5"
+                android:elevation="4dp"
+                android:text="@string/start_prompt"
+                app:layout_constraintHorizontal_weight=".5" />
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:weightSum="1"
-        android:layout_gravity="bottom">
+            <Button
+                android:id="@+id/prompt_preview_choose_another_button"
+                style="?android:attr/buttonBarButtonStyle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight=".5"
+                android:elevation="4dp"
+                android:text="@string/wrong_one" />
 
-        <Button
-            android:id="@+id/prompt_preview_start_button"
-            style="?android:attr/buttonBarButtonStyle"
-            android:layout_weight=".5"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:text="@string/start_prompt"
-            app:layout_constraintHorizontal_weight=".5"
-            android:elevation="4dp"/>
-        <Button
-            android:id="@+id/prompt_preview_choose_another_button"
-            style="?android:attr/buttonBarButtonStyle"
-            android:text="@string/wrong_one"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight=".5"
-            android:elevation="4dp"
-            />
-
-    </LinearLayout>
+        </LinearLayout>
 
 
+    </android.support.constraint.ConstraintLayout>
 
 
 </android.support.v7.widget.CardView>
