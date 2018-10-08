@@ -7,6 +7,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,6 +24,7 @@ import java.io.InputStreamReader;
 import java.net.URI;
 import java.util.Objects;
 
+import Utils.FragmentNavUtils;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -32,6 +34,7 @@ import calle.david.promptly.R;
 public class FilePicker extends Fragment {
     View mView;
     Context mContext;
+    FragmentManager mFragmentManager;
     private static final int READ_REQUEST_CODE = 42;
     //@BindView(R.id.file_picker_button)Button mFilePickerButton;
 
@@ -47,6 +50,7 @@ public class FilePicker extends Fragment {
         mView = inflater.inflate(R.layout.fragment_file_picker, container, false);
         mContext = getContext();
         ButterKnife.bind(this,mView);
+        mFragmentManager=getFragmentManager();
         return mView;
     }
 
@@ -70,6 +74,7 @@ public class FilePicker extends Fragment {
             try {
               String boo =  readTextFromUri(uri);
               int b =9;
+                FragmentNavUtils.navigateToFragment(mFragmentManager,new PreviewDialogue(),R.id.fragment_container,"Preview Dialogue");
             } catch (IOException e) {
                 e.printStackTrace();
             }

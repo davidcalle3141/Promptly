@@ -62,6 +62,14 @@ public class Login extends android.support.v4.app.Fragment {
     }
 
     @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        if(getActivity()!=null){
+        getActivity().findViewById(R.id.bottom_navigation_view).setVisibility(View.GONE);
+        getActivity().findViewById(R.id.toolbar_container).setVisibility(View.GONE);}
+    }
+
+    @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
@@ -77,6 +85,7 @@ public class Login extends android.support.v4.app.Fragment {
 
         ButterKnife.bind(this,mView);
         mAuth = FirebaseAuth.getInstance();
+
         return mView;
     }
 
@@ -104,8 +113,10 @@ public class Login extends android.support.v4.app.Fragment {
 
     private void updateUi(FirebaseUser account) {
         if(account!=null){
-            Objects.requireNonNull(getActivity()).findViewById(R.id.toolbar_container).setVisibility(View.VISIBLE);
-            getActivity().findViewById(R.id.bottom_navigation_view).setVisibility(View.VISIBLE);
+            if(getActivity()!=null){
+                    getActivity().findViewById(R.id.bottom_navigation_view).setVisibility(View.VISIBLE);
+                    getActivity().findViewById(R.id.toolbar_container).setVisibility(View.VISIBLE);
+            }
             FragmentNavUtils.replaceFragment(mFragmentManager,R.id.fragment_container,new FilePicker(),"FILE_PICKER");
 
         }else showSignInButton();
