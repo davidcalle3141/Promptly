@@ -35,7 +35,8 @@ public class PromptlyRepo {
     }
     public LiveData<Prompt> getPrompt(int id ){return mPromptDao.selectPrompt(id);}
     public void savePrompt(Prompt prompt){
-        mPromptDao.Insert(prompt);
+
+        mExecutors.diskIO().execute(()-> mPromptDao.Insert(prompt));
     }
 
 

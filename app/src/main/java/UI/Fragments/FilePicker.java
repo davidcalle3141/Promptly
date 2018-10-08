@@ -87,7 +87,6 @@ public class FilePicker extends Fragment {
            uri = data.getData();
             try {
                 promptData[0] = getFileName(uri);
-                promptData[0] = promptData[0].substring(0, promptData[0].lastIndexOf('.'));
                 promptData[1] =  readTextFromUri(uri);
                 mViewModel.setPromptData(promptData);
                 FragmentNavUtils.navigateToFragment(mFragmentManager,new PreviewDialogue(),R.id.fragment_container,"Preview Dialogue");

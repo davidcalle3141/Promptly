@@ -60,6 +60,7 @@
                 app:layout_constraintHorizontal_weight=".5" />
 
             <Button
+                android:id="@+id/prompt_preview_save_button"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="3"

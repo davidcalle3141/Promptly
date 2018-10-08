@@ -42,7 +42,7 @@ public class Settings extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         int currentSize = (int) mTextView.getTextSize();
-        mSeekBar.setProgress(currentSize);
+        mSeekBar.setProgress(currentSize+10);
         mSeekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int i, boolean b) {

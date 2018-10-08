@@ -43,7 +43,7 @@ public class SavedPromptsAdapter extends RecyclerView.Adapter<SavedPromptsVH> {
     @NonNull
     @Override
     public SavedPromptsVH onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
-        View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.fragment_saved_prompts,viewGroup,false);
+        View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.fragment_saved_prompts_row,viewGroup,false);
         return new SavedPromptsVH(view,onClickListener);
     }
     @Override

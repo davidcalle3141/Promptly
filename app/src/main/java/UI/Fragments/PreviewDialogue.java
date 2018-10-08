@@ -1,6 +1,7 @@
 package UI.Fragments;
 
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
@@ -13,6 +14,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,11 +22,15 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import java.io.BufferedReader;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Objects;
 
+import Data.Database.Prompt;
 import Utils.InjectorUtils;
 import ViewModel.PreviewDialogueViewModel;
 import ViewModel.PreviewDialogueViewModelFactory;
@@ -36,6 +42,7 @@ import calle.david.promptly.R;
 
 public class PreviewDialogue extends Fragment {
     private static final int READ_REQUEST_CODE = 43;
+    private static final String LOG_TAG = "PREVIEW_DIALOGUE";
     View mView;
     Context mContext;
 
@@ -82,19 +89,13 @@ public class PreviewDialogue extends Fragment {
         mViewModel.getPrompt().observe(this,
                 promptDetails ->{
             if(promptDetails!=null){
-                mToolbarTitle.setText(promptDetails[0]);
+                mToolbarTitle.setText(promptDetails[0].substring(0, promptDetails[0].lastIndexOf('.')));
                 mPreviewText.setText(promptDetails[1]);
             }
                 });
     }
 
-    @OnClick(R.id.prompt_preview_choose_another_button)
-    public void selectFile(){
-        Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
-        intent.addCategory(Intent.CATEGORY_OPENABLE);
-        intent.setType("text/plain");
-        startActivityForResult(intent, READ_REQUEST_CODE);
-    }
+
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -105,7 +106,6 @@ public class PreviewDialogue extends Fragment {
             uri = data.getData();
             try {
                 promptData[0] = getFileName(uri);
-                promptData[0] = promptData[0].substring(0, promptData[0].lastIndexOf('.'));
                 promptData[1] =  readTextFromUri(uri);
                 mViewModel.setPromptData(promptData);
             } catch (IOException e) {
@@ -140,4 +140,44 @@ public class PreviewDialogue extends Fragment {
             returnCursor.close();}
         return returnName;
     }
+    @OnClick(R.id.prompt_preview_choose_another_button)
+    public void selectFile(){
+        Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
+        intent.addCategory(Intent.CATEGORY_OPENABLE);
+        intent.setType("text/plain");
+        startActivityForResult(intent, READ_REQUEST_CODE);
+    }
+
+    @OnClick(R.id.prompt_preview_save_button)
+    public void saveButton(){
+        Prompt prompt = new Prompt();
+
+        @SuppressLint("SimpleDateFormat") SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+        Calendar c = Calendar.getInstance();
+        String date = sdf.format(c.getTime());
+        mViewModel.getPrompt().observe(this, promptDetail->{
+            if(promptDetail!=null) {
+                saveFile(promptDetail);
+                prompt.setName(promptDetail[0].substring(0, promptDetail[0].lastIndexOf('.')));
+                prompt.setPath(Objects.requireNonNull(getContext()).getFilesDir().getPath().concat("/").concat(promptDetail[0]));
+                prompt.setSavedDate(date);
+                mViewModel.savePrompt(prompt);
+            }
+        });
+    }
+
+    private void saveFile(String[] promptDetail) {
+        FileOutputStream fileOutputStream;
+        try {
+            fileOutputStream = mContext.openFileOutput(promptDetail[0], Context.MODE_PRIVATE);
+            fileOutputStream.write(promptDetail[1].getBytes());
+            fileOutputStream.close();
+        }catch (Exception e) {
+            Log.d(LOG_TAG,"save file failed");
+            e.printStackTrace();
+        }
+
+    }
+
+
 }

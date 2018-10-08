@@ -12,8 +12,7 @@ public class Prompt {
     private String name;
     private String savedDate;
 
-    public Prompt(int id, String name, String path, String savedDate){
-        this.id = id;
+    public Prompt( String name, String path, String savedDate){
         this.name = name;
         this.path = path;
         this.savedDate = savedDate;
@@ -43,7 +42,7 @@ public class Prompt {
     }
 
     public void setPath(String path) {
-        this.path = path;
+        this.path =  path;
     }
 
     public String getSavedDate() {
