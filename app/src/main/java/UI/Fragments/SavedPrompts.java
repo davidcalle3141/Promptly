@@ -1,9 +1,7 @@
 package UI.Fragments;
 
-import android.arch.lifecycle.ViewModelProvider;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -20,10 +18,8 @@ import java.util.Objects;
 import UI.Adapters.SavedPromptsAdapter;
 import Utils.FragmentNavUtils;
 import Utils.InjectorUtils;
-import ViewModel.PreviewDialogueViewModel;
-import ViewModel.PreviewDialogueViewModelFactory;
-import ViewModel.SavedPromptsViewModel;
-import ViewModel.SavedPromptsViewModelFactory;
+import ViewModel.PromptsViewModel;
+import ViewModel.PromptsViewModelFactory;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import calle.david.promptly.R;
@@ -34,7 +30,7 @@ public class SavedPrompts extends Fragment implements SavedPromptsAdapter.SavedP
     SavedPromptsAdapter mAdapter;
 
     @BindView(R.id.saved_prompts_RV)RecyclerView mRecyclerView;
-    private SavedPromptsViewModel mSavedViewModel;
+    private PromptsViewModel mSavedViewModel;
     private FragmentManager mFragmentManager;
 
     public SavedPrompts() {
@@ -67,8 +63,8 @@ public class SavedPrompts extends Fragment implements SavedPromptsAdapter.SavedP
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        SavedPromptsViewModelFactory sFactory = InjectorUtils.provideSavedPromptsFactory(Objects.requireNonNull(getActivity()));
-        mSavedViewModel = ViewModelProviders.of(getActivity(),sFactory).get(SavedPromptsViewModel.class);
+        PromptsViewModelFactory sFactory = InjectorUtils.provideSavedPromptsFactory(Objects.requireNonNull(getActivity()));
+        mSavedViewModel = ViewModelProviders.of(getActivity(),sFactory).get(PromptsViewModel.class);
 
         populateUI();
     }

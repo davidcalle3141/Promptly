@@ -1,7 +1,6 @@
 package UI.Fragments;
 
 import android.app.Activity;
-import android.arch.lifecycle.ViewModelProvider;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
 import android.content.Intent;
@@ -16,26 +15,17 @@ import android.support.v4.app.FragmentManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 
 import java.io.BufferedReader;
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.net.URI;
 import java.util.Objects;
 
 import Utils.FragmentNavUtils;
 import Utils.InjectorUtils;
-import ViewModel.PreviewDialogueViewModel;
-import ViewModel.PreviewDialogueViewModelFactory;
-import ViewModel.SavedPromptsViewModel;
-import ViewModel.SavedPromptsViewModelFactory;
-import butterknife.BindView;
+import ViewModel.PromptsViewModel;
+import ViewModel.PromptsViewModelFactory;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import calle.david.promptly.R;
@@ -45,7 +35,7 @@ public class FilePicker extends Fragment {
     View mView;
     Context mContext;
     FragmentManager mFragmentManager;
-    PreviewDialogueViewModel mViewModel;
+    PromptsViewModel mViewModel;
 
     private static final int READ_REQUEST_CODE = 42;
     //@BindView(R.id.file_picker_button)Button mFilePickerButton;
@@ -69,10 +59,8 @@ public class FilePicker extends Fragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        PreviewDialogueViewModelFactory factory = InjectorUtils.providePreviewDialogueFactory(Objects.requireNonNull(getActivity()));
-        mViewModel = ViewModelProviders.of(getActivity(),factory).get(PreviewDialogueViewModel.class);
-
-
+        PromptsViewModelFactory factory = InjectorUtils.provideSavedPromptsFactory(Objects.requireNonNull(getActivity()));
+        mViewModel = ViewModelProviders.of(getActivity(),factory).get(PromptsViewModel.class);
 
     }
 

@@ -5,8 +5,7 @@ import android.content.Context;
 
 import Data.Database.AppDatabase;
 import Data.PromptlyRepo;
-import ViewModel.PreviewDialogueViewModelFactory;
-import ViewModel.SavedPromptsViewModelFactory;
+import ViewModel.PromptsViewModelFactory;
 
 public class InjectorUtils {
 
@@ -16,14 +15,10 @@ public class InjectorUtils {
         return PromptlyRepo.getsInstance(database.promptDao(),executors);
     }
 
-    public static SavedPromptsViewModelFactory provideSavedPromptsFactory(Context context){
+    public static PromptsViewModelFactory provideSavedPromptsFactory(Context context){
         PromptlyRepo repo = provideRepo(context.getApplicationContext());
-        return new SavedPromptsViewModelFactory(repo);
+        return new PromptsViewModelFactory(repo);
     }
 
-    public static PreviewDialogueViewModelFactory providePreviewDialogueFactory(Context context){
-        PromptlyRepo repo = provideRepo(context.getApplicationContext());
-        return new PreviewDialogueViewModelFactory(repo);
-    }
 
 }

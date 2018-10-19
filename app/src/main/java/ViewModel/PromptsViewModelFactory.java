@@ -4,12 +4,11 @@ import android.arch.lifecycle.ViewModel;
 import android.arch.lifecycle.ViewModelProvider;
 import android.support.annotation.NonNull;
 
-import Data.Database.Prompt;
 import Data.PromptlyRepo;
 
-public class SavedPromptsViewModelFactory extends ViewModelProvider.NewInstanceFactory {
+public class PromptsViewModelFactory extends ViewModelProvider.NewInstanceFactory {
     private final PromptlyRepo mRepo;
-    public SavedPromptsViewModelFactory(PromptlyRepo repo){
+    public PromptsViewModelFactory(PromptlyRepo repo){
         this.mRepo = repo;
     }
 
@@ -17,6 +16,6 @@ public class SavedPromptsViewModelFactory extends ViewModelProvider.NewInstanceF
     @SuppressWarnings({"Unchecked", "unchecked"})
     @Override
     public <T extends ViewModel> T create(@NonNull Class<T> modelClass) {
-        return (T) new SavedPromptsViewModel(mRepo);
+        return (T) new PromptsViewModel(mRepo);
     }
 }

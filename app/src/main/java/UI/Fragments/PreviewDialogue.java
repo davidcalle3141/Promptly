@@ -13,17 +13,12 @@ import android.provider.OpenableColumns;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
-import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.TextView;
 
 import com.hlab.fabrevealmenu.listeners.OnFABMenuSelectedListener;
@@ -41,8 +36,8 @@ import java.util.Objects;
 import Data.Database.Prompt;
 import Utils.FragmentNavUtils;
 import Utils.InjectorUtils;
-import ViewModel.PreviewDialogueViewModel;
-import ViewModel.PreviewDialogueViewModelFactory;
+import ViewModel.PromptsViewModel;
+import ViewModel.PromptsViewModelFactory;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -60,7 +55,7 @@ public class PreviewDialogue extends Fragment implements OnFABMenuSelectedListen
     @BindView(R.id.fab)FloatingActionButton mFab;
     @BindView(R.id.fabMenu)FABRevealMenu mFabMenu;
 
-    private PreviewDialogueViewModel mViewModel;
+    private PromptsViewModel mViewModel;
     private FragmentManager mFragmentManager;
 
 
@@ -85,8 +80,8 @@ public class PreviewDialogue extends Fragment implements OnFABMenuSelectedListen
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        PreviewDialogueViewModelFactory factory = InjectorUtils.providePreviewDialogueFactory(Objects.requireNonNull(getActivity()));
-        mViewModel = ViewModelProviders.of(getActivity(),factory).get(PreviewDialogueViewModel.class);
+        PromptsViewModelFactory factory = InjectorUtils.provideSavedPromptsFactory(Objects.requireNonNull(getActivity()));
+        mViewModel = ViewModelProviders.of(getActivity(),factory).get(PromptsViewModel.class);
 
         populateUI();
     }
@@ -170,7 +165,7 @@ public class PreviewDialogue extends Fragment implements OnFABMenuSelectedListen
     public void saveButton(){
         Prompt prompt = new Prompt();
 
-        @SuppressLint("SimpleDateFormat") SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+        @SuppressLint("SimpleDateFormat") SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy");
         Calendar c = Calendar.getInstance();
         String date = sdf.format(c.getTime());
         mViewModel.getPrompt().observe(this, promptDetail->{
@@ -216,5 +211,6 @@ public class PreviewDialogue extends Fragment implements OnFABMenuSelectedListen
     }
 
     private void playPrompt() {
+
     }
 }

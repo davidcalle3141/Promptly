@@ -9,7 +9,7 @@ import java.util.List;
 import Data.Database.Prompt;
 import Data.PromptlyRepo;
 
-public class SavedPromptsViewModel extends ViewModel {
+public class PromptsViewModel extends ViewModel {
     private final LiveData<List<Prompt>> mPromptList;
     private MutableLiveData<String[]> mPromptDetails;
     private MutableLiveData<Prompt> mFocusedPrompt;
@@ -17,7 +17,7 @@ public class SavedPromptsViewModel extends ViewModel {
     private PromptlyRepo mRepo;
 
 
-    public SavedPromptsViewModel(PromptlyRepo repo) {
+    public PromptsViewModel(PromptlyRepo repo) {
         this.mRepo = repo;
         mPromptList = mRepo.getPromptList();
         mPromptDetails = new MutableLiveData<>();
@@ -28,9 +28,12 @@ public class SavedPromptsViewModel extends ViewModel {
     public void setPromptData(String[] promptData){
         mPromptDetails.postValue(promptData);
     }
+
+
     public MutableLiveData<String[]> getPrompt(){
         return mPromptDetails;
     }
+
     public LiveData<List<Prompt>> getPromptList() {
         return mPromptList;
     }
@@ -39,6 +42,9 @@ public class SavedPromptsViewModel extends ViewModel {
         return mFocusedPrompt;
     }
 
+    public void savePrompt(Prompt prompt){
+        mRepo.savePrompt(prompt);
+    }
     public void setFocusedPrompt(Prompt mFocusedPrompt) {
         this.mFocusedPrompt.postValue(mFocusedPrompt);
     }

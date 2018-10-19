@@ -12,8 +12,6 @@ import android.support.v4.app.FragmentManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.hlab.fabrevealmenu.listeners.OnFABMenuSelectedListener;
@@ -21,15 +19,13 @@ import com.hlab.fabrevealmenu.view.FABRevealMenu;
 
 import java.io.BufferedReader;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.InputStreamReader;
 import java.util.Objects;
 
 import Utils.FragmentNavUtils;
 import Utils.InjectorUtils;
-import ViewModel.PreviewDialogueViewModel;
-import ViewModel.SavedPromptsViewModel;
-import ViewModel.SavedPromptsViewModelFactory;
+import ViewModel.PromptsViewModel;
+import ViewModel.PromptsViewModelFactory;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -49,7 +45,7 @@ public class SavedDialogue extends Fragment implements OnFABMenuSelectedListener
     @BindView(R.id.fab)FloatingActionButton mFab;
     @BindView(R.id.fabMenu)FABRevealMenu mFabMenu;
 
-    private SavedPromptsViewModel mSavedViewModel;
+    private PromptsViewModel mSavedViewModel;
     private FragmentManager mFragmentManager;
 
 
@@ -74,8 +70,8 @@ public class SavedDialogue extends Fragment implements OnFABMenuSelectedListener
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        SavedPromptsViewModelFactory factory = InjectorUtils.provideSavedPromptsFactory(Objects.requireNonNull(getActivity()));
-        mSavedViewModel = ViewModelProviders.of(getActivity(),factory).get(SavedPromptsViewModel.class);
+        PromptsViewModelFactory factory = InjectorUtils.provideSavedPromptsFactory(Objects.requireNonNull(getActivity()));
+        mSavedViewModel = ViewModelProviders.of(getActivity(),factory).get(PromptsViewModel.class);
 
         populateUI();
     }
@@ -140,6 +136,7 @@ public class SavedDialogue extends Fragment implements OnFABMenuSelectedListener
     }
 
     private void playPrompt() {
+        FragmentNavUtils.navigateToFragment(mFragmentManager,new TelePrompt(), R.id.fragment_container, "TELE_FRAG");
     }
 
     private void deleteFile() {
