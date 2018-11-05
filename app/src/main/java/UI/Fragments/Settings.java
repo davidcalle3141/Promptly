@@ -12,6 +12,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AccelerateDecelerateInterpolator;
 import android.view.animation.LinearInterpolator;
 import android.widget.ScrollView;
 import android.widget.SeekBar;
@@ -72,7 +73,7 @@ public class Settings extends Fragment {
 
         ObjectAnimator textSizeAnimator =
                 ObjectAnimator.ofInt(mSeekBar, "progress", (int) sp - 30);
-        textSizeAnimator.setInterpolator(new LinearInterpolator());
+        textSizeAnimator.setInterpolator(new AccelerateDecelerateInterpolator());
         textSizeAnimator.setDuration(1000);
         textSizeAnimator.addListener(new Animator.AnimatorListener() {
             @Override
@@ -96,12 +97,13 @@ public class Settings extends Fragment {
             }
         });
 
-        int defaultValueScrollSpeed = 5;
+        int defaultValueScrollSpeed = 50;
         int scrollSpeed = sharedPreferences.getInt("PROMPTER_SCROLL_SPEED", defaultValueScrollSpeed);
 
+
         ObjectAnimator scrollSpeedAnimator =
-                ObjectAnimator.ofInt(mSeekBarScrollSpeed, "progress", scrollSpeed);
-        scrollSpeedAnimator.setInterpolator(new LinearInterpolator());
+                ObjectAnimator.ofInt(mSeekBarScrollSpeed, "progress", 100 - scrollSpeed + 10);
+        scrollSpeedAnimator.setInterpolator(new AccelerateDecelerateInterpolator());
         scrollSpeedAnimator.setDuration(1000);
         scrollSpeedAnimator.addListener(new Animator.AnimatorListener() {
             @Override
@@ -137,7 +139,7 @@ public class Settings extends Fragment {
     private void startScrollAnimation(int scrollSpeed) {
 
         mAnimator = ObjectAnimator.ofInt(mScrollView, "scrollY", mTextView.getBottom());
-        mAnimator.setDuration(mTextView.getLineCount() * (scrollSpeed * 100));
+        mAnimator.setDuration((long) ((mTextView.getLineCount() * ((scrollSpeed / 10) * 100)) * 2.5));
         mAnimator.setInterpolator(new LinearInterpolator());
         mAnimator.addListener(new Animator.AnimatorListener() {
             @Override
@@ -178,7 +180,7 @@ public class Settings extends Fragment {
         mSeekBarScrollSpeed.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
-                startScrollAnimation(i + 1);
+                startScrollAnimation((100 - i) + 10);
             }
 
             @Override
@@ -187,7 +189,7 @@ public class Settings extends Fragment {
 
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
-                sharedPreferences.edit().putInt("PROMPTER_SCROLL_SPEED", seekBar.getProgress() + 1).apply();
+                sharedPreferences.edit().putInt("PROMPTER_SCROLL_SPEED", (100 - seekBar.getProgress()) + 10).apply();
                 startScroll();
             }
         });

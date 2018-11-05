@@ -61,6 +61,7 @@ public class TelePrompt extends Fragment {
         return mView;
 
 
+
     }
 
     @Override
@@ -83,7 +84,8 @@ public class TelePrompt extends Fragment {
 
 
         animator = ObjectAnimator.ofInt(mScrollview, "scrollY", mTextView.getBottom());
-        animator.setDuration(mTextView.getLineCount() * sharedPreferences.getInt("PROMPTER_SCROLL_SPEED", 5) * 100);
+        animator.setDuration((long) ((mTextView.getLineCount() * ((sharedPreferences.getInt("PROMPTER_SCROLL_SPEED", 50) / 10) * 100)) * 2.5));
+
         animator.setInterpolator(new LinearInterpolator());
         animator.addListener(new Animator.AnimatorListener() {
 
