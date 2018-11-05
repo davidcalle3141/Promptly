@@ -4,22 +4,32 @@ import android.animation.Animator;
 import android.animation.ObjectAnimator;
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.AccelerateDecelerateInterpolator;
 import android.view.animation.LinearInterpolator;
+import android.widget.ImageButton;
+import android.widget.PopupMenu;
 import android.widget.ScrollView;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
+import com.google.firebase.auth.FirebaseAuth;
+
+import java.util.Objects;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import calle.david.promptly.R;
 
 
@@ -34,6 +44,8 @@ public class Settings extends Fragment {
     SeekBar mSeekBarScrollSpeed;
     @BindView(R.id.settings_seek_bar)SeekBar mSeekBar;
     @BindView(R.id.settings_text_view)TextView mTextView;
+    @BindView(R.id.toolbar_menu_button)
+    ImageButton mMenuButton;
     private ObjectAnimator mAnimator;
 
     public Settings() {
@@ -49,6 +61,7 @@ public class Settings extends Fragment {
         ButterKnife.bind(this,mView);
         String text = getResources().getString(R.string.settings_text);
         mTextView.setText(text);
+        mMenuButton.setVisibility(View.VISIBLE);
         return mView;
     }
 
@@ -61,6 +74,36 @@ public class Settings extends Fragment {
 
 
     }
+
+
+    @OnClick(R.id.toolbar_menu_button)
+    public void menuButtonClick() {
+        PopupMenu popupMenu = new PopupMenu(mContext, mMenuButton);
+        MenuInflater inflater = popupMenu.getMenuInflater();
+        inflater.inflate(R.menu.toolbar_menu, popupMenu.getMenu());
+        popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem menuItem) {
+                switch (menuItem.getItemId()) {
+                    case R.id.logout:
+
+                        FirebaseAuth.getInstance().signOut();
+                        Intent i = mActivity.getBaseContext().getPackageManager()
+                                .getLaunchIntentForPackage(mActivity.getBaseContext().getPackageName());
+                        Objects.requireNonNull(i).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                        startActivity(i);
+                        return true;
+                }
+                return false;
+            }
+        });
+
+
+        popupMenu.show();
+
+
+    }
+
 
     private void populateUI() {
 
