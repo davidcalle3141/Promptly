@@ -57,6 +57,7 @@ public class PreviewDialogue extends Fragment implements OnFABMenuSelectedListen
 
     private PromptsViewModel mViewModel;
     private FragmentManager mFragmentManager;
+    private Activity mActivity;
 
 
     public PreviewDialogue() {
@@ -69,6 +70,7 @@ public class PreviewDialogue extends Fragment implements OnFABMenuSelectedListen
                              Bundle savedInstanceState) {
         mFragmentManager = getFragmentManager();
         mContext = getContext();
+        mActivity = getActivity();
         mView =  inflater.inflate(R.layout.fragment_preview_dialogue, container, false);
         ButterKnife.bind(this,mView);
         mFabMenu.setMenu(R.menu.fab_menu_selected);
@@ -213,6 +215,15 @@ public class PreviewDialogue extends Fragment implements OnFABMenuSelectedListen
     }
 
     private void playPrompt() {
+        mActivity.findViewById(R.id.bottom_navigation_view).setVisibility(View.GONE);
+        FragmentNavUtils.navigateToFragment(mFragmentManager, new TelePrompt(), R.id.fragment_container, "TELE_FRAG");
+
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        mActivity.findViewById(R.id.bottom_navigation_view).setVisibility(View.VISIBLE);
 
     }
 }

@@ -79,14 +79,6 @@ public class SavedDialogue extends Fragment implements OnFABMenuSelectedListener
     private void populateUI() {
         mViewModel.getPromptDetails().removeObservers(this);
 
-//        mViewModel.getFocusedPrompt().observe(this,
-//                focusedPrompt->{
-//                    if(focusedPrompt!= null){
-//                    String name = focusedPrompt.getName();
-//                    mViewModel.setPromptText(readFile(focusedPrompt.getPath()));
-//                    mToolbarTitle.setText(name);
-//                    }
-//                });
 
         mViewModel.getPromptDetails().observe(this,
                 promptDetails -> {
@@ -96,30 +88,9 @@ public class SavedDialogue extends Fragment implements OnFABMenuSelectedListener
                     }
                 });
 
-//        mViewModel.getPromptText().observe(this,
-//                promptText-> mPreviewText.setText(promptText));
 
 
     }
-
-//    private String readFile(String path) {
-//        StringBuilder sb = new StringBuilder();
-//        try {
-//            FileInputStream in = Objects.requireNonNull(getContext()).openFileInput(path);
-//            InputStreamReader inputStreamReader = new InputStreamReader(in);
-//            BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
-//            String line;
-//            while ((line = bufferedReader.readLine())!= null){
-//                sb.append(line);
-//            }
-//            bufferedReader.close();
-//        } catch (java.io.IOException e) {
-//            e.printStackTrace();
-//        }
-//
-//        return sb.toString();
-//
-//    }
 
 
     @OnClick(R.id.toolbar_back_arrow)
