@@ -5,6 +5,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     tools:context="UI.Fragments.Settings"
+    android:background="@color/colorPrimary"
     android:weightSum="10">
     <include
         layout="@layout/zdefault_toolbar"

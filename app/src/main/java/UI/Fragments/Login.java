@@ -130,6 +130,7 @@ public class Login extends android.support.v4.app.Fragment {
                 GoogleSignInAccount account = task.getResult(ApiException.class);
                 firebaseAuthWithGoogle(account);
             }catch (ApiException e){
+                e.printStackTrace();
                 Log.w(TAG, "Google sign in failed", e);
                 //TODO update if sign in failed
             }

@@ -107,8 +107,8 @@ public class Settings extends Fragment {
 
     private void populateUI() {
 
-        int currentSize = (int) mTextView.getTextSize();
-        float defaultValueSize = currentSize / getResources().getDisplayMetrics().scaledDensity;
+
+        float defaultValueSize = 80 / getResources().getDisplayMetrics().scaledDensity;
         float sp = sharedPreferences.getFloat("PROMPTER_TEXT_SIZE", defaultValueSize);
 
 
@@ -139,6 +139,7 @@ public class Settings extends Fragment {
 
             }
         });
+        textSizeAnimator.start();
 
         int defaultValueScrollSpeed = 50;
         int scrollSpeed = sharedPreferences.getInt("PROMPTER_SCROLL_SPEED", defaultValueScrollSpeed);
@@ -172,7 +173,6 @@ public class Settings extends Fragment {
             }
         });
 
-        textSizeAnimator.start();
         scrollSpeedAnimator.start();
 
 

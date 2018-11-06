@@ -29,6 +29,7 @@ import calle.david.promptly.R;
 public class MainActivity extends AppCompatActivity {
     @BindView(R.id.bottom_navigation_view)AHBottomNavigation mBottomNavigation;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

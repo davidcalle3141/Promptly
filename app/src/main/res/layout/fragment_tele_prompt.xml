@@ -5,6 +5,7 @@
     android:layout_height="match_parent"
     tools:context="UI.Fragments.TelePrompt"
     android:nestedScrollingEnabled="true"
+    android:background="@color/colorPrimary"
     android:overScrollMode="always">
 
     <!-- TODO: Update blank fragment layout -->

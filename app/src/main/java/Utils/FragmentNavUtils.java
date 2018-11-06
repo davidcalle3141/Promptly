@@ -12,6 +12,7 @@ public class FragmentNavUtils {
     }
     public static void navigateToFragment(FragmentManager fragmentManager, Fragment destination, int container,String FRAGMENT_TAG){
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.setCustomAnimations(android.R.anim.fade_in, android.R.anim.fade_out);
         fragmentTransaction.replace(container,destination);
         fragmentTransaction.addToBackStack(FRAGMENT_TAG);
         fragmentTransaction.commit();
@@ -20,6 +21,7 @@ public class FragmentNavUtils {
 
         fragmentManager
                 .beginTransaction()
+                .setCustomAnimations(android.R.anim.fade_in, android.R.anim.fade_out)
                 .replace(container, fragment,FRAGMENT_TAG)
                 .commit();
     }
@@ -30,6 +32,7 @@ public class FragmentNavUtils {
         fragmentManager.popBackStack(DESTINATION_TAG,0);
     }
     public static void pop(FragmentManager fragmentManager){
+
         fragmentManager.popBackStack();
     }
 
