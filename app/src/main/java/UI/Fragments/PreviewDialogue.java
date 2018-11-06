@@ -94,7 +94,9 @@ public class PreviewDialogue extends Fragment implements OnFABMenuSelectedListen
     }
 
     private void populateUI() {
-        mViewModel.getPrompt().observe(this,
+        mViewModel.getPromptDetails().removeObservers(this);
+
+        mViewModel.getPromptDetails().observe(this,
                 promptDetails ->{
             if(promptDetails!=null){
                 mToolbarTitle.setText(promptDetails[0].substring(0, promptDetails[0].lastIndexOf('.')));
@@ -168,7 +170,7 @@ public class PreviewDialogue extends Fragment implements OnFABMenuSelectedListen
         @SuppressLint("SimpleDateFormat") SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy");
         Calendar c = Calendar.getInstance();
         String date = sdf.format(c.getTime());
-        mViewModel.getPrompt().observe(this, promptDetail->{
+        mViewModel.getPromptDetails().observe(this, promptDetail -> {
             if(promptDetail!=null) {
                 saveFile(promptDetail);
                 prompt.setName(promptDetail[0].substring(0, promptDetail[0].lastIndexOf('.')));

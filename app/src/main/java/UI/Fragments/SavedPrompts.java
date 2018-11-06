@@ -13,6 +13,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import java.io.BufferedReader;
+import java.io.FileInputStream;
+import java.io.InputStreamReader;
 import java.util.Objects;
 
 import UI.Adapters.SavedPromptsAdapter;
@@ -55,7 +58,14 @@ public class SavedPrompts extends Fragment implements SavedPromptsAdapter.SavedP
 
     @Override
     public void onItemClick(int position, int id) {
-            mSavedViewModel.setFocusedPrompt(mAdapter.getPrompt(position));
+        String[] promptDetail = new String[2];
+        promptDetail[0] = mAdapter.getPrompt(position).getPath();
+        promptDetail[1] = readFile(mAdapter.getPrompt(position).getPath());
+
+        mSavedViewModel.setPromptData(promptDetail);
+
+
+        // mSavedViewModel.setFocusedPrompt(mAdapter.getPrompt(position));
             FragmentNavUtils.navigateToFragment(mFragmentManager,new SavedDialogue(),R.id.fragment_container,"Saved Dialogue");
 
     }
@@ -67,6 +77,25 @@ public class SavedPrompts extends Fragment implements SavedPromptsAdapter.SavedP
         mSavedViewModel = ViewModelProviders.of(getActivity(),sFactory).get(PromptsViewModel.class);
 
         populateUI();
+    }
+
+    private String readFile(String path) {
+        StringBuilder sb = new StringBuilder();
+        try {
+            FileInputStream in = Objects.requireNonNull(getContext()).openFileInput(path);
+            InputStreamReader inputStreamReader = new InputStreamReader(in);
+            BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
+            String line;
+            while ((line = bufferedReader.readLine()) != null) {
+                sb.append(line);
+            }
+            bufferedReader.close();
+        } catch (java.io.IOException e) {
+            e.printStackTrace();
+        }
+
+        return sb.toString();
+
     }
 
     private void populateUI() {

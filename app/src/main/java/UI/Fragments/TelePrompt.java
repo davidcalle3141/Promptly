@@ -4,13 +4,13 @@ package UI.Fragments;
 import android.animation.Animator;
 import android.animation.ObjectAnimator;
 import android.app.Activity;
+import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.text.method.ScrollingMovementMethod;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,7 +18,12 @@ import android.view.animation.LinearInterpolator;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
+import java.util.Objects;
+
 import Utils.AppExecutors;
+import Utils.InjectorUtils;
+import ViewModel.PromptsViewModel;
+import ViewModel.PromptsViewModelFactory;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -44,12 +49,18 @@ public class TelePrompt extends Fragment {
     private AppExecutors mExecutors;
     private ObjectAnimator animator;
     private SharedPreferences sharedPreferences;
+    private PromptsViewModel mViewModel;
 
 
     public TelePrompt() {
         // Required empty public constructor
     }
 
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+    }
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
@@ -58,24 +69,38 @@ public class TelePrompt extends Fragment {
         mContext = getContext();
         mActivity = getActivity();
         ButterKnife.bind(this, mView);
-        return mView;
 
+        sharedPreferences = mActivity.getPreferences(Context.MODE_PRIVATE);
+        return mView;
 
 
     }
 
+
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        text = mActivity.getResources().getString(R.string.test_tele_string);
-        sharedPreferences = mActivity.getPreferences(Context.MODE_PRIVATE);
-        sp = sharedPreferences.getFloat("PROMPTER_TEXT_SIZE", 50);
-        mTextView.setTextSize(sp);
-        mTextView.setText(text);
-        mTextView.setMovementMethod(new ScrollingMovementMethod());
+
+        PromptsViewModelFactory factory = InjectorUtils.provideSavedPromptsFactory(Objects.requireNonNull(getActivity()));
+        mViewModel = ViewModelProviders.of(getActivity(), factory).get(PromptsViewModel.class);
+
+        populateUI();
+
         mTextView.post(this::ScrollControl);
         mExecutors = AppExecutors.getInstance();
 
+
+    }
+
+    private void populateUI() {
+        sp = sharedPreferences.getFloat("PROMPTER_TEXT_SIZE", 50);
+        mTextView.setTextSize(sp);
+
+        mViewModel.getPromptDetails().observe(this,
+                promptDetails -> {
+
+                    mTextView.setText(promptDetails[1]);
+                });
 
     }
 
@@ -126,6 +151,7 @@ public class TelePrompt extends Fragment {
 
 
     }
+
 
     @OnClick(R.id.tele_prompt_text_view)
     public void clickScreen() {
