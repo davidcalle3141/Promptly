@@ -57,6 +57,10 @@ dependencies {
     //FAB Animations
     implementation 'com.hlab.fabrevealmenu:fab-reveal-menu:1.0.3'
 
+    //Ads
+    implementation 'com.google.firebase:firebase-ads:17.0.0'
+
+
 
 }
 

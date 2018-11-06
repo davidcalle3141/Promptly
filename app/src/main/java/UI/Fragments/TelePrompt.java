@@ -18,12 +18,8 @@ import android.view.animation.LinearInterpolator;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
-import java.util.Objects;
-
 import Utils.AppExecutors;
-import Utils.InjectorUtils;
 import ViewModel.PromptsViewModel;
-import ViewModel.PromptsViewModelFactory;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -81,8 +77,7 @@ public class TelePrompt extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        PromptsViewModelFactory factory = InjectorUtils.provideSavedPromptsFactory(Objects.requireNonNull(getActivity()));
-        mViewModel = ViewModelProviders.of(getActivity(), factory).get(PromptsViewModel.class);
+        mViewModel = ViewModelProviders.of(getActivity()).get(PromptsViewModel.class);
 
         populateUI();
 

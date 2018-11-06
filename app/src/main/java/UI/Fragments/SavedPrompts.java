@@ -20,9 +20,7 @@ import java.util.Objects;
 
 import UI.Adapters.SavedPromptsAdapter;
 import Utils.FragmentNavUtils;
-import Utils.InjectorUtils;
 import ViewModel.PromptsViewModel;
-import ViewModel.PromptsViewModelFactory;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import calle.david.promptly.R;
@@ -74,8 +72,7 @@ public class SavedPrompts extends Fragment implements SavedPromptsAdapter.SavedP
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        PromptsViewModelFactory sFactory = InjectorUtils.provideSavedPromptsFactory(Objects.requireNonNull(getActivity()));
-        mSavedViewModel = ViewModelProviders.of(getActivity(),sFactory).get(PromptsViewModel.class);
+        mSavedViewModel = ViewModelProviders.of(getActivity()).get(PromptsViewModel.class);
 
         populateUI();
     }

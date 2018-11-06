@@ -21,6 +21,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.InterstitialAd;
 import com.hlab.fabrevealmenu.listeners.OnFABMenuSelectedListener;
 import com.hlab.fabrevealmenu.view.FABRevealMenu;
 
@@ -35,9 +37,7 @@ import java.util.Objects;
 
 import Data.Database.Prompt;
 import Utils.FragmentNavUtils;
-import Utils.InjectorUtils;
 import ViewModel.PromptsViewModel;
-import ViewModel.PromptsViewModelFactory;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -58,6 +58,7 @@ public class PreviewDialogue extends Fragment implements OnFABMenuSelectedListen
     private PromptsViewModel mViewModel;
     private FragmentManager mFragmentManager;
     private Activity mActivity;
+    private InterstitialAd mInterstitialAd;
 
 
     public PreviewDialogue() {
@@ -76,14 +77,19 @@ public class PreviewDialogue extends Fragment implements OnFABMenuSelectedListen
         mFabMenu.setMenu(R.menu.fab_menu_selected);
         mFabMenu.bindAnchorView(mFab);
         mFabMenu.setOnFABMenuSelectedListener(this);
+
+
+        mInterstitialAd = new InterstitialAd(mContext);
+        mInterstitialAd.setAdUnitId("ca-app-pub-3940256099942544/1033173712");
+        mInterstitialAd.loadAd(new AdRequest.Builder().build());
+
         return mView;
     }
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        PromptsViewModelFactory factory = InjectorUtils.provideSavedPromptsFactory(Objects.requireNonNull(getActivity()));
-        mViewModel = ViewModelProviders.of(getActivity(),factory).get(PromptsViewModel.class);
+        mViewModel = ViewModelProviders.of(getActivity()).get(PromptsViewModel.class);
 
         populateUI();
     }
@@ -215,6 +221,14 @@ public class PreviewDialogue extends Fragment implements OnFABMenuSelectedListen
 
     private void playPrompt() {
         mActivity.findViewById(R.id.bottom_navigation_view).setVisibility(View.GONE);
+        if (mInterstitialAd.isLoaded()) {
+            mInterstitialAd.show();
+        } else {
+            Log.d("TAG", "The interstitial wasn't loaded yet.");
+        }
+
+
+
         FragmentNavUtils.navigateToFragment(mFragmentManager, new TelePrompt(), R.id.fragment_container, "TELE_FRAG");
 
     }

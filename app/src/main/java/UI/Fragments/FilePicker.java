@@ -23,9 +23,7 @@ import java.io.InputStreamReader;
 import java.util.Objects;
 
 import Utils.FragmentNavUtils;
-import Utils.InjectorUtils;
 import ViewModel.PromptsViewModel;
-import ViewModel.PromptsViewModelFactory;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import calle.david.promptly.R;
@@ -59,8 +57,7 @@ public class FilePicker extends Fragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        PromptsViewModelFactory factory = InjectorUtils.provideSavedPromptsFactory(Objects.requireNonNull(getActivity()));
-        mViewModel = ViewModelProviders.of(getActivity(),factory).get(PromptsViewModel.class);
+        mViewModel = ViewModelProviders.of(getActivity()).get(PromptsViewModel.class);
 
     }
 

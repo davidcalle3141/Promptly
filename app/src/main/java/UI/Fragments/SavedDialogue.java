@@ -18,12 +18,8 @@ import android.widget.TextView;
 import com.hlab.fabrevealmenu.listeners.OnFABMenuSelectedListener;
 import com.hlab.fabrevealmenu.view.FABRevealMenu;
 
-import java.util.Objects;
-
 import Utils.FragmentNavUtils;
-import Utils.InjectorUtils;
 import ViewModel.PromptsViewModel;
-import ViewModel.PromptsViewModelFactory;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -70,8 +66,7 @@ public class SavedDialogue extends Fragment implements OnFABMenuSelectedListener
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        PromptsViewModelFactory factory = InjectorUtils.provideSavedPromptsFactory(Objects.requireNonNull(getActivity()));
-        mViewModel = ViewModelProviders.of(getActivity(), factory).get(PromptsViewModel.class);
+        mViewModel = ViewModelProviders.of(getActivity()).get(PromptsViewModel.class);
 
         populateUI();
     }

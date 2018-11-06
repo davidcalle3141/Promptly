@@ -1,19 +1,24 @@
 package UI;
 
+import android.arch.lifecycle.ViewModelProviders;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 
 import com.aurelhubert.ahbottomnavigation.AHBottomNavigation;
 import com.aurelhubert.ahbottomnavigation.AHBottomNavigationItem;
+import com.google.android.gms.ads.MobileAds;
+
+import java.util.Objects;
 
 import UI.Fragments.FilePicker;
 import UI.Fragments.Login;
 import UI.Fragments.SavedPrompts;
 import UI.Fragments.Settings;
 import Utils.FragmentNavUtils;
+import Utils.InjectorUtils;
+import ViewModel.PromptsViewModel;
+import ViewModel.PromptsViewModelFactory;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import calle.david.promptly.R;
@@ -26,6 +31,12 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
+        MobileAds.initialize(this, "ca-app-pub-3940256099942544/1033173712");
+
+        PromptsViewModelFactory factory = InjectorUtils.provideSavedPromptsFactory(Objects.requireNonNull(this));
+        ViewModelProviders.of(this, factory).get(PromptsViewModel.class);
+
+
 
                 mBottomNavigation.setAccentColor(Color.parseColor("#da0000"));
 
