@@ -33,8 +33,7 @@ public class MainActivity extends AppCompatActivity {
         ButterKnife.bind(this);
         MobileAds.initialize(this, "ca-app-pub-3940256099942544/1033173712");
 
-        PromptsViewModelFactory factory = InjectorUtils.provideSavedPromptsFactory(Objects.requireNonNull(this));
-        ViewModelProviders.of(this, factory).get(PromptsViewModel.class);
+
 
 
 
@@ -80,7 +79,10 @@ public class MainActivity extends AppCompatActivity {
 
         if(savedInstanceState==null){
             mBottomNavigation.setCurrentItem(1);
-            FragmentNavUtils.startActivityFragment(getSupportFragmentManager(), new Login(), R.id.fragment_container);}
+            FragmentNavUtils.startActivityFragment(getSupportFragmentManager(), new Login(), R.id.fragment_container);
+            PromptsViewModelFactory factory = InjectorUtils.provideSavedPromptsFactory(Objects.requireNonNull(this));
+            ViewModelProviders.of(this, factory).get(PromptsViewModel.class);
+        }
 
     }
 
