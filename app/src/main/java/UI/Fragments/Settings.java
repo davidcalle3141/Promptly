@@ -12,7 +12,6 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.AccelerateDecelerateInterpolator;
@@ -81,21 +80,18 @@ public class Settings extends Fragment {
         PopupMenu popupMenu = new PopupMenu(mContext, mMenuButton);
         MenuInflater inflater = popupMenu.getMenuInflater();
         inflater.inflate(R.menu.toolbar_menu, popupMenu.getMenu());
-        popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
-            @Override
-            public boolean onMenuItemClick(MenuItem menuItem) {
-                switch (menuItem.getItemId()) {
-                    case R.id.logout:
+        popupMenu.setOnMenuItemClickListener(menuItem -> {
+            switch (menuItem.getItemId()) {
+                case R.id.logout:
 
-                        FirebaseAuth.getInstance().signOut();
-                        Intent i = mActivity.getBaseContext().getPackageManager()
-                                .getLaunchIntentForPackage(mActivity.getBaseContext().getPackageName());
-                        Objects.requireNonNull(i).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                        startActivity(i);
-                        return true;
-                }
-                return false;
+                    FirebaseAuth.getInstance().signOut();
+                    Intent i = mActivity.getBaseContext().getPackageManager()
+                            .getLaunchIntentForPackage(mActivity.getBaseContext().getPackageName());
+                    Objects.requireNonNull(i).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    startActivity(i);
+                    return true;
             }
+            return false;
         });
 
 

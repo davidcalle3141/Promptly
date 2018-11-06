@@ -2,6 +2,9 @@ package UI.Fragments;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -11,6 +14,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
@@ -26,6 +30,9 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
 
+import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.Objects;
 
 import Utils.FragmentNavUtils;
@@ -48,6 +55,8 @@ public class Login extends android.support.v4.app.Fragment {
     FragmentManager mFragmentManager;
 
     @BindView(R.id.sign_in_button)SignInButton mGoogleSingInButton;
+    @BindView(R.id.login_background_image)
+    ImageView mBackgroundImage;
 
 
 
@@ -82,6 +91,9 @@ public class Login extends android.support.v4.app.Fragment {
 
         ButterKnife.bind(this,mView);
         mAuth = FirebaseAuth.getInstance();
+
+        LoadImageAsync loadImage = new LoadImageAsync();
+        loadImage.execute();
 
         return mView;
     }
@@ -124,6 +136,7 @@ public class Login extends android.support.v4.app.Fragment {
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
+
         if(requestCode == 1){
             Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
             try{
@@ -159,4 +172,41 @@ public class Login extends android.support.v4.app.Fragment {
                 });
 
     }
+
+    public class LoadImageAsync extends AsyncTask<String, Void, Bitmap> {
+        private final String DEFAULT_IMAGE = getString(R.string.default_login_background_image);
+
+
+        @Override
+        protected Bitmap doInBackground(String... urls) {
+            URL url;
+            Bitmap bmp = null;
+            try {
+
+
+                HttpURLConnection urlConnection = null;
+                url = new URL(DEFAULT_IMAGE);
+                urlConnection = (HttpURLConnection) url.openConnection();
+                InputStream in = urlConnection.getInputStream();
+                bmp = BitmapFactory.decodeStream(in);
+
+            } catch (java.io.IOException e) {
+                e.printStackTrace();
+            }
+
+            return bmp;
+        }
+
+        @Override
+        protected void onPostExecute(Bitmap bitmap) {
+            super.onPostExecute(bitmap);
+            mBackgroundImage.setImageBitmap(bitmap);
+
+        }
+    }
+
+
+
+
+
 }

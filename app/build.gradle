@@ -60,6 +60,11 @@ dependencies {
     implementation 'com.hlab.fabrevealmenu:fab-reveal-menu:1.0.3'
     //Ads
     implementation 'com.google.firebase:firebase-ads:17.0.0'
+
+    //picasso
+    implementation 'com.squareup.picasso:picasso:2.71828'
+    //okhttp
+    implementation 'com.squareup.okhttp3:okhttp:3.11.0'
 }
 
 apply plugin: 'com.google.gms.google-services'

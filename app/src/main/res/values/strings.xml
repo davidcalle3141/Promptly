@@ -44,6 +44,8 @@
     <string name="preference_id_key">preference_id_key</string>
     <string name="preference_title_key">preference_title_key</string>
     <string name="widget_default_text">Tap and select prompt</string>
+    <string name="background_image_of_typewriter">background image of typewriter</string>
+    <string name="default_login_background_image">https://source.unsplash.com/aSPbuSG4rpo</string>
 
 
 </resources>
