@@ -80,7 +80,7 @@ public class PreviewDialogue extends Fragment implements OnFABMenuSelectedListen
 
 
         mInterstitialAd = new InterstitialAd(mContext);
-        mInterstitialAd.setAdUnitId(getResources().getString(R.string.AdID));
+        mInterstitialAd.setAdUnitId("ca-app-pub-3940256099942544/1033173712");
         mInterstitialAd.loadAd(new AdRequest.Builder().build());
 
         return mView;
