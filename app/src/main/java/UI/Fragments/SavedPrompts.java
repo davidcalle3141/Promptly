@@ -63,6 +63,7 @@ public class SavedPrompts extends Fragment implements SavedPromptsAdapter.SavedP
         promptDetail[1] = readFile(mAdapter.getPrompt(position).getPath());
 
         mSavedViewModel.setPromptData(promptDetail);
+        mSavedViewModel.setPromptID(mAdapter.getPrompt(position).getId());
 
 
         // mSavedViewModel.setFocusedPrompt(mAdapter.getPrompt(position));

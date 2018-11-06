@@ -167,7 +167,6 @@ public class PreviewDialogue extends Fragment implements OnFABMenuSelectedListen
     }
 
     public void saveButton(){
-        Prompt prompt = new Prompt();
 
         @SuppressLint("SimpleDateFormat") SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy");
         Calendar c = Calendar.getInstance();
@@ -175,9 +174,9 @@ public class PreviewDialogue extends Fragment implements OnFABMenuSelectedListen
         mViewModel.getPromptDetails().observe(this, promptDetail -> {
             if(promptDetail!=null) {
                 saveFile(promptDetail);
-                prompt.setName(promptDetail[0].substring(0, promptDetail[0].lastIndexOf('.')));
-                prompt.setPath(promptDetail[0]);
-                prompt.setSavedDate(date);
+                Prompt prompt = new Prompt(promptDetail[0].substring(0, promptDetail[0].lastIndexOf('.')),
+                        promptDetail[0], date);
+
                 mViewModel.savePrompt(prompt);
             }
         });

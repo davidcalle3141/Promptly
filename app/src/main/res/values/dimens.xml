@@ -18,4 +18,5 @@
     <dimen name="msg_text_primary">16sp</dimen>
     <dimen name="msg_text_secondary">14sp</dimen>
     <dimen name="toolbar_txt_size">20sp</dimen>
+    <dimen name="preview_text_size">20sp</dimen>
 </resources>

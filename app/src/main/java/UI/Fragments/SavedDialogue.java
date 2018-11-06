@@ -118,6 +118,8 @@ public class SavedDialogue extends Fragment implements OnFABMenuSelectedListener
     }
 
     private void deleteFile() {
+        mViewModel.deletePrompt();
+        mFragmentManager.popBackStack();
     }
 
     @Override

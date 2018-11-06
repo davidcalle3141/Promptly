@@ -12,7 +12,7 @@ import Data.PromptlyRepo;
 public class PromptsViewModel extends ViewModel {
     private final LiveData<List<Prompt>> mPromptList;
     private MutableLiveData<String[]> mPromptDetails;
-
+    private int PromptID;
     private PromptlyRepo mRepo;
 
 
@@ -41,5 +41,16 @@ public class PromptsViewModel extends ViewModel {
         mRepo.savePrompt(prompt);
     }
 
+    public void deletePrompt() {
+        mRepo.deletePrompt(getPromptID());
+    }
 
+
+    public int getPromptID() {
+        return PromptID;
+    }
+
+    public void setPromptID(int promptID) {
+        PromptID = promptID;
+    }
 }

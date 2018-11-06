@@ -1,8 +1,8 @@
 package Data;
+
 import android.arch.lifecycle.LiveData;
 
 import java.util.List;
-import java.util.ListIterator;
 
 import Data.Database.Prompt;
 import Data.Database.PromptDao;
@@ -37,6 +37,10 @@ public class PromptlyRepo {
     public void savePrompt(Prompt prompt){
 
         mExecutors.diskIO().execute(()-> mPromptDao.Insert(prompt));
+    }
+
+    public void deletePrompt(int promptID) {
+        mExecutors.diskIO().execute(() -> mPromptDao.deletePrompt(promptID));
     }
 
 

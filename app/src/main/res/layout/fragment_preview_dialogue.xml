@@ -1,5 +1,4 @@
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/preview_dialog_constraint_layout"
     android:layout_width="match_parent"
@@ -36,6 +35,7 @@
         android:id="@+id/preview_dialog_scrollview"
         android:layout_width="match_parent"
         android:layout_height="0dp"
+        android:overScrollMode="always"
         app:layout_constraintTop_toBottomOf="@id/prompt_preview_dialog_toolbar"
         app:layout_constraintBottom_toBottomOf="parent"
         >
@@ -43,6 +43,7 @@
             android:id="@+id/prompt_preview_text_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:textSize="@dimen/preview_text_size"
             android:scrollbars="vertical"
             android:padding="10dp"
 
