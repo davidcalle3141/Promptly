@@ -10,11 +10,14 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.InterstitialAd;
 import com.hlab.fabrevealmenu.listeners.OnFABMenuSelectedListener;
 import com.hlab.fabrevealmenu.view.FABRevealMenu;
 
@@ -42,6 +45,7 @@ public class SavedDialogue extends Fragment implements OnFABMenuSelectedListener
     private PromptsViewModel mViewModel;
     private FragmentManager mFragmentManager;
     private Activity mActivity;
+    private InterstitialAd mInterstitialAd;
 
 
     public SavedDialogue() {
@@ -60,6 +64,10 @@ public class SavedDialogue extends Fragment implements OnFABMenuSelectedListener
         mFabMenu.setMenu(R.menu.fab_menue_saved);
         mFabMenu.bindAnchorView(mFab);
         mFabMenu.setOnFABMenuSelectedListener(this);
+
+        mInterstitialAd = new InterstitialAd(mContext);
+        mInterstitialAd.setAdUnitId(getResources().getString(R.string.AdID));
+        mInterstitialAd.loadAd(new AdRequest.Builder().build());
         return mView;
     }
 
@@ -109,6 +117,11 @@ public class SavedDialogue extends Fragment implements OnFABMenuSelectedListener
 
     private void playPrompt() {
         mActivity.findViewById(R.id.bottom_navigation_view).setVisibility(View.GONE);
+        if (mInterstitialAd.isLoaded()) {
+            mInterstitialAd.show();
+        } else {
+            Log.d("TAG", "The interstitial wasn't loaded yet.");
+        }
         FragmentNavUtils.navigateToFragment(mFragmentManager,new TelePrompt(), R.id.fragment_container, "TELE_FRAG");
     }
 

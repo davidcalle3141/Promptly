@@ -40,4 +40,10 @@
     <string name="AdID">ca-app-pub-1093597063436130~9444108622</string>
 
 
+    <!-- widget stuff -->
+    <string name="preference_id_key">preference_id_key</string>
+    <string name="preference_title_key">preference_title_key</string>
+    <string name="widget_default_text">Tap and select prompt</string>
+
+
 </resources>

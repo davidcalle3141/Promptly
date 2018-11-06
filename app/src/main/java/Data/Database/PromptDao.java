@@ -8,8 +8,6 @@ import android.arch.persistence.room.Query;
 
 import java.util.List;
 
-import static android.arch.persistence.room.OnConflictStrategy.REPLACE;
-
 @Dao
 public interface PromptDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
@@ -23,6 +21,9 @@ public interface PromptDao {
 
     @Query("DELETE FROM Prompt WHERE id = :id")
     void deletePrompt(int id);
+
+    @Query("SELECT * From Prompt")
+    List<Prompt> loadPromptSnapshot();
 
 }
 
