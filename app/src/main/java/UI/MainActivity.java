@@ -1,8 +1,6 @@
 package UI;
 
-import android.appwidget.AppWidgetManager;
 import android.arch.lifecycle.ViewModelProviders;
-import android.content.ComponentName;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -17,7 +15,6 @@ import UI.Fragments.FilePicker;
 import UI.Fragments.Login;
 import UI.Fragments.SavedPrompts;
 import UI.Fragments.Settings;
-import UI.Widget.HomeScreenWidget;
 import Utils.FragmentNavUtils;
 import Utils.InjectorUtils;
 import ViewModel.PromptsViewModel;
@@ -86,18 +83,9 @@ public class MainActivity extends AppCompatActivity {
             FragmentNavUtils.startActivityFragment(getSupportFragmentManager(), new Login(), R.id.fragment_container);
             PromptsViewModelFactory factory = InjectorUtils.provideSavedPromptsFactory(Objects.requireNonNull(this));
             ViewModelProviders.of(this, factory).get(PromptsViewModel.class);
-            updateWidget();
         }
 
     }
 
-    private void updateWidget() {
-        AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(getApplicationContext());
-        int[] widgetIds = appWidgetManager.getAppWidgetIds(
-                new ComponentName(getApplicationContext(), HomeScreenWidget.class)
-        );
-        appWidgetManager.notifyAppWidgetViewDataChanged(widgetIds, R.id.widget_saved_list_items);
-        HomeScreenWidget.updateAppWidget(getApplicationContext(), appWidgetManager, widgetIds);
-    }
 
 }

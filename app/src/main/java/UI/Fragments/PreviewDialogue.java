@@ -3,7 +3,9 @@ package UI.Fragments;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.appwidget.AppWidgetManager;
 import android.arch.lifecycle.ViewModelProviders;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
@@ -36,6 +38,7 @@ import java.util.Calendar;
 import java.util.Objects;
 
 import Data.Database.Prompt;
+import UI.Widget.HomeScreenWidget;
 import Utils.FragmentNavUtils;
 import ViewModel.PromptsViewModel;
 import butterknife.BindView;
@@ -174,6 +177,7 @@ public class PreviewDialogue extends Fragment implements OnFABMenuSelectedListen
 
     public void saveButton(){
 
+        updateWidget();
         @SuppressLint("SimpleDateFormat") SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy");
         Calendar c = Calendar.getInstance();
         String date = sdf.format(c.getTime());
@@ -186,6 +190,15 @@ public class PreviewDialogue extends Fragment implements OnFABMenuSelectedListen
                 mViewModel.savePrompt(prompt);
             }
         });
+    }
+
+    private void updateWidget() {
+        AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(mContext);
+        int[] widgetIds = appWidgetManager.getAppWidgetIds(
+                new ComponentName(mContext, HomeScreenWidget.class)
+        );
+        appWidgetManager.notifyAppWidgetViewDataChanged(widgetIds, R.id.widget_saved_list_items);
+        HomeScreenWidget.updateAppWidget(mContext, appWidgetManager, widgetIds);
     }
 
     private void saveFile(String[] promptDetail) {
