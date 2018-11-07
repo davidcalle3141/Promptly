@@ -14,6 +14,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
@@ -53,7 +55,6 @@ public class Login extends android.support.v4.app.Fragment {
     private View mView;
     private Context mContext;
     FragmentManager mFragmentManager;
-
     @BindView(R.id.sign_in_button)SignInButton mGoogleSingInButton;
     @BindView(R.id.login_background_image)
     ImageView mBackgroundImage;
@@ -200,6 +201,8 @@ public class Login extends android.support.v4.app.Fragment {
         @Override
         protected void onPostExecute(Bitmap bitmap) {
             super.onPostExecute(bitmap);
+            Animation fadeAnim = AnimationUtils.loadAnimation(mContext, android.R.anim.fade_in);
+            mBackgroundImage.setAnimation(fadeAnim);
             mBackgroundImage.setImageBitmap(bitmap);
 
         }
