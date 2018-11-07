@@ -16,6 +16,7 @@
             android:layout_height="wrap_content"
             android:src="@drawable/ic_arrow_back_black_24dp"
             android:background="@color/colorPrimary"
+            android:contentDescription="@string/back_button"
 
             />
 
@@ -46,6 +47,7 @@
             android:textSize="@dimen/preview_text_size"
             android:scrollbars="vertical"
             android:padding="10dp"
+            android:contentDescription="@string/prompt_preview"
 
             />
     </ScrollView>
@@ -59,6 +61,7 @@
         android:src="@drawable/ic_add_black_24dp"
         app:elevation="4dp"
         app:layout_constraintBottom_toBottomOf="@id/preview_dialog_constraint_layout"
+        android:contentDescription="@string/floating_action_button"
         app:layout_constraintEnd_toEndOf="parent" />
 
     <com.hlab.fabrevealmenu.view.FABRevealMenu

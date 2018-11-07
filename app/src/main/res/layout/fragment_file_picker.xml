@@ -35,6 +35,7 @@
         app:layout_constraintRight_toRightOf="parent"
         android:layout_margin="@dimen/sign_in_button_margin"
         android:elevation="16dp"
+        android:contentDescription="@string/select_file"
         />
 
 

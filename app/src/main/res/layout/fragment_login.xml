@@ -42,6 +42,7 @@
         app:layout_constraintRight_toRightOf="parent"
         android:layout_margin="@dimen/sign_in_button_margin"
         android:visibility="gone"
+        android:contentDescription="@string/google_authentication_button"
         />
 
 

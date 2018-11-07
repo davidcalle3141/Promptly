@@ -46,6 +46,13 @@
     <string name="widget_default_text">Tap and select prompt</string>
     <string name="background_image_of_typewriter">background image of typewriter</string>
     <string name="default_login_background_image">https://source.unsplash.com/aSPbuSG4rpo</string>
+    <string name="google_authentication_button">google authentication button</string>
+    <string name="prompt_preview">prompt preview</string>
+    <string name="back_button">back button</string>
+    <string name="floating_action_button">floating action button</string>
+    <string name="text_size_and_scroll_speed_preview">text size and scroll speed preview</string>
+    <string name="seek_bar_changes_text_size">seek bar changes text size</string>
+    <string name="scrollspeed_seekbar_description">seekbar changes scroll speed</string>
 
 
 </resources>
